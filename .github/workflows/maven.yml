@@ -46,6 +46,13 @@ jobs:
           name: jacoco-report
           path: target/site/jacoco
 
+
+      - name: Upload artifact to github pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload code coverage report
+          path: target/site/jacoco
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
