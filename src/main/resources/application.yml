@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: my-news-demo
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+    [newsdemo.scheduler]: DEBUG
+
+# scheduled-tasks:
+#     enabled: true

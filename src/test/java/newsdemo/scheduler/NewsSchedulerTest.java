@@ -1,23 +1,52 @@
 package newsdemo.scheduler;
 
-import newsdemo.scheduler.NewsScheduler;
+import static org.awaitility.Awaitility.await;
+import static org.mockito.Mockito.when;
+
+import java.time.Duration;
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import newsdemo.repository.NewsRepository;
+import newsdemo.retriever.NewsRetriever;
 
-@SpringBootTest
+
+@ExtendWith(MockitoExtension.class)
 public class NewsSchedulerTest {
 
-    @Autowired
-    private NewsScheduler scheduler;
+    @Mock
+    private NewsRepository newsRepository;
+
+    @Mock
+    private NewsRetriever newsRetriever;
+
+    @InjectMocks
+    private NewsScheduler newsScheduler;
 
     @Test
-    void randomTest() {
-//        NewsScheduler scheduler = new NewsScheduler();
-        assertEquals("Hello", scheduler.randomMethod());
+    void verifyfindLastNewsDateRetrievedIsCalled() { 
+        // Call the method to be tested
+        newsScheduler.retrieveNews();
+
+        // Verify that findLastNewsDateRetrieved was called exactly once
+         Mockito.verify(newsRepository, Mockito.times(1)).findLastNewsDateRetrieved();
+    }
+
+    @Test
+    void verifyRetrieveLatestNewsIsCalled() { 
+        // Mock the behavior of findLastNewsDateRetrieved
+        when(newsRepository.findLastNewsDateRetrieved()).thenReturn(LocalDate.now());
+
+        // Call the method to be tested
+        newsScheduler.retrieveNews(); 
+        
+        // Verify that retrieveLatestNews was called with the expected argument
+        Mockito.verify(newsRetriever, Mockito.times(1)).retrieveLatestNews(LocalDate.now());
     }
 }

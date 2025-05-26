@@ -19,6 +19,12 @@
     </parent>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
         <!-- Spring Boot Starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -90,6 +96,18 @@
                             </rules>
                         </configuration>
                     </execution>
+
+                     <execution>
+                        <id>report-in-console</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <output>console</output>
+                        </configuration>
+                    </execution>
+                    
                 </executions>
             </plugin>
         </plugins>
